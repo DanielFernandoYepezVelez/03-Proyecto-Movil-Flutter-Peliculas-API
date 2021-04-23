@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:catalogo_peliculas/src/widgets/card_swiper_widget.dart';
 
 class HomePage extends StatelessWidget {
+  final peliculasProvider = new PeliculasProvider();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,17 +22,45 @@ class HomePage extends StatelessWidget {
         ),
         body: Container(
           child: Column(
-            children: [_swiperTarjetas()],
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [_swiperTarjetas(), _footer(context)],
           ),
         ));
   }
 
   Widget _swiperTarjetas() {
-    final peliculasProvider = new PeliculasProvider();
-    peliculasProvider.getEnCines();
+    return FutureBuilder(
+      future:
+          peliculasProvider.getEnCines(), // Como retorna Un Future Lo Acepta
+      builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+        if (snapshot.hasData) {
+          return CardSwiper(peliculas: snapshot.data);
+        } else {
+          return Container(
+              height: 450.0, child: Center(child: CircularProgressIndicator()));
+        }
+      },
+    );
+  }
 
-    return CardSwiper(
-      peliculas: [1, 2, 3, 4, 5],
+  Widget _footer(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      child: Column(
+        children: [
+          /* Para Configurar Textos De Una Manera Global */
+          Text('Populares', style: Theme.of(context).textTheme.subtitle1),
+          FutureBuilder(
+            future: peliculasProvider.getPopulares(),
+            builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
+              print(snapshot.data);
+
+              snapshot.data?.forEach((pelicula) => print(pelicula.title));
+              return Container();
+            },
+          ),
+        ],
+      ),
     );
   }
 }

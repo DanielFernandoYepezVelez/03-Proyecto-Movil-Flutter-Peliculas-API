@@ -65,22 +65,28 @@ class Result {
 enum OriginalLanguage { EN, JA, RU, ES }
 */
 
+/* Este Es La Lista(Arreglo) Que Me Almacena Todas Las Peliculas */
 class Peliculas {
+  /* Aqui Especificamente Se Almacena La Pelicula Una A Una */
   List<Pelicula> items = [];
 
   Peliculas();
 
+  /* Aqui Se Esta Recibiendo La Lista De Lo Que Me Retorna La API De Forma Original*/
   Peliculas.fromJsonList(List<dynamic> jsonList) {
     if (jsonList == null) return;
 
+    /* Aqui Yo Me Paso Por Esa Lista Dinamica E Itero En Cada Item De Su LLave - Valor */
     for (var item in jsonList) {
+      /* Aqui Lo Que Yo Recibo De Forma Original Lo Mapea A Los Tipos De Datos Que
+      Me Ayuden A Identificar El Contenido De Las Peliculas */
       final pelicula = new Pelicula.fromJsonMap(item);
       items.add(pelicula);
     }
   }
 }
 
-/* La Data Que Viene De La Api Va Ha Ser Transformada En Un Map */
+/* Esta Clase Es Para Mapear Los Tipos De Datos De Las Peliculas Como Yo Lo Quiero Definir */
 class Pelicula {
   bool adult;
   String backdropPath;
@@ -114,9 +120,8 @@ class Pelicula {
     this.voteCount,
   });
 
-  /* Este Metodo Se Va A Invocar Cuando Quiero Generar Una
-    Instancia De Una Pelicula, Que Viene Desde Un Json Y 
-    Paso O Se Toma Como Un Map */
+  /* Lo Que Viene De Forma Original De La API Pasa Por Aqui
+  Para Que Se Mapee O Transforme En Los Tipos Que Yo Necesito */
   Pelicula.fromJsonMap(Map<String, dynamic> json) {
     adult = json['adult'];
     backdropPath = json['backdrop_path'];
@@ -132,5 +137,13 @@ class Pelicula {
     video = json['video'];
     voteAverage = json['vote_average'] / 1;
     voteCount = json['vote_count'];
+  }
+
+  getPosterImg() {
+    if (posterPath == null) {
+      return 'https://mantenimientocode.xyz/images/not-found.jpg';
+    } else {
+      return 'https://image.tmdb.org/t/p/w500/$posterPath';
+    }
   }
 }
