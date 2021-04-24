@@ -4,7 +4,7 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:catalogo_peliculas/src/models/pelicula_model.dart';
 /* Aqui Estoy Customizando Este Widget Para Utilizarlo 
 En Cualrquier Otro Lado De Mi Aplicación Que Requiera 
-Reutilizar Este Widget */
+Reutilizar Este Widget Mostrando Las Peliculas */
 
 class CardSwiper extends StatelessWidget {
   final List<Pelicula> peliculas;
