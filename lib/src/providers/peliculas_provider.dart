@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
@@ -8,6 +9,27 @@ class PeliculasProvider {
   String _apiKey = '4d142929e92c52183f0266f0cb5e94cc';
   String _url = 'api.themoviedb.org';
   String _language = 'es-ES';
+  int _popularesPage = 0;
+  List<Pelicula> _populares = [];
+
+  /* ===== Codigo Para EL Stream ===== */
+  final _popularesStreamController =
+      StreamController<List<Pelicula>>.broadcast();
+
+  /* Para Insertar Información */
+  /* Aqui Mi Tuberia(StreamController) Solo Va Ha Aceptar Listas De Peliculas */
+  /* Se Puede Omitir El Tipo De Dato, Pero No Es Lo Más Conveniente */
+  Function(List<Pelicula>) get popularesSink =>
+      _popularesStreamController.sink.add;
+
+  /* Para Obtener La Informacón Emitida */
+  Stream<List<Pelicula>> get popularesStream =>
+      _popularesStreamController.stream;
+
+  /* Para Cerrar El Stream */
+  void disposeStreams() {
+    _popularesStreamController?.close();
+  }
 
   Future<List<Pelicula>> _procesarRespuesta(Uri url) async {
     /* Aqui Hacemos La Petición */
@@ -33,11 +55,17 @@ class PeliculasProvider {
   }
 
   Future<List<Pelicula>> getPopulares() async {
+    _popularesPage++;
+
     /* Aqui Estoy Generando La Url Con Parametros */
-    final url = Uri.https(
-        _url, '3/movie/popular', {'api_key': _apiKey, 'language': _language});
+    final url = Uri.https(_url, '3/movie/popular',
+        {'api_key': _apiKey, 'language': _language, 'page': _popularesPage});
 
     /* Optimización De Código */
-    return await _procesarRespuesta(url);
+    final respuesta = await _procesarRespuesta(url);
+    _populares.addAll(respuesta);
+    popularesSink(_populares);
+
+    return respuesta;
   }
 }
