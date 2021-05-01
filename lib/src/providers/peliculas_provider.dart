@@ -11,6 +11,7 @@ class PeliculasProvider {
   String _language = 'es-ES';
   int _popularesPage = 0;
   List<Pelicula> _populares = [];
+  bool _cargando = false;
 
   /* ===== Codigo Para EL Stream ===== */
   final _popularesStreamController =
@@ -55,17 +56,28 @@ class PeliculasProvider {
   }
 
   Future<List<Pelicula>> getPopulares() async {
+    /* Cuando LLego Aqui No Se Ejecuta Más El Código, Por El Tema Del Return */
+    if (_cargando) return [];
+
+    /* Aqui Voy A Iniciar A Cargar La Data De La API, Para Solicitar Información */
+    _cargando = true;
     _popularesPage++;
+    // print('Cargando Las Siguientes Peliculas');
 
     /* Aqui Estoy Generando La Url Con Parametros */
-    final url = Uri.https(_url, '3/movie/popular',
-        {'api_key': _apiKey, 'language': _language, 'page': _popularesPage});
+    final url = Uri.https(_url, '3/movie/popular', {
+      'api_key': _apiKey,
+      'language': _language,
+      'page': _popularesPage.toString()
+    });
 
     /* Optimización De Código */
     final respuesta = await _procesarRespuesta(url);
     _populares.addAll(respuesta);
     popularesSink(_populares);
 
+    /* Cuando Yo Tengo La Respuesta De La API Vuelvo A Falso Cargando */
+    _cargando = false;
     return respuesta;
   }
 }
