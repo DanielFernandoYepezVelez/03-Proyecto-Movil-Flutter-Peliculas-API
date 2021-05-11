@@ -14,6 +14,8 @@ De Esta Clase Mantener Su Estado, Por Ende Es Un StatelessWidget */
 class MovieHorizontal extends StatelessWidget {
   final List<Pelicula> peliculas;
   final Function siguientePagina;
+
+  /* Para Escuchar Los Cambios Que Pasen En El Movie Horizontal(Scroll) */
   final _pageController =
       new PageController(initialPage: 1, viewportFraction: 0.3);
 
@@ -23,6 +25,7 @@ class MovieHorizontal extends StatelessWidget {
   Widget build(BuildContext context) {
     final _screenSize = MediaQuery.of(context).size;
 
+    /* Obtener La Posición En Pixeles Del Page Controller */
     _pageController.addListener(() {
       if (_pageController.position.pixels >=
           _pageController.position.maxScrollExtent - 200) {
@@ -45,7 +48,7 @@ class MovieHorizontal extends StatelessWidget {
   }
 
   Widget _tarjeta(BuildContext context, Pelicula pelicula) {
-    return Container(
+    final tarjetaIndividual = Container(
       margin: EdgeInsets.only(right: 15.0),
       child: Column(
         children: [
@@ -69,9 +72,16 @@ class MovieHorizontal extends StatelessWidget {
         ],
       ),
     );
+
+    return GestureDetector(
+      child: tarjetaIndividual,
+      onTap: () {
+        Navigator.pushNamed(context, 'detalle', arguments: pelicula);
+      },
+    );
   }
 
-  List<Widget> _targetas(BuildContext context) {
+  List<Widget> _tarjetas(BuildContext context) {
     return peliculas.map((pelicula) {
       return Container(
         margin: EdgeInsets.only(right: 15.0),

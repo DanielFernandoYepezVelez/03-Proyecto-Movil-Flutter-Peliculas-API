@@ -14,6 +14,7 @@ class PeliculasProvider {
   bool _cargando = false;
 
   /* ===== Codigo Para EL Stream ===== */
+  /* Con El BroadCast() Puedo Estar Escuchando En Diferentes Widgets */
   final _popularesStreamController =
       StreamController<List<Pelicula>>.broadcast();
 

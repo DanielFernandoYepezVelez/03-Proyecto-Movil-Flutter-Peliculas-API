@@ -9,6 +9,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /* Esta Instruccion Me Esta Ejecutando El Future Y Al Mismo Tiempo El Sink.add() */
     peliculasProvider.getPopulares();
 
     return Scaffold(
@@ -48,7 +49,7 @@ class HomePage extends StatelessWidget {
 
   Widget _footer(BuildContext context) {
     return Container(
-      width: double.infinity,
+      width: double.infinity, // Toma Todo El Espacio Disponible
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -58,6 +59,8 @@ class HomePage extends StatelessWidget {
               child: Text('Populares',
                   style: Theme.of(context).textTheme.subtitle1)),
           SizedBox(height: 5.0),
+
+          /* Ya No Retorno Un Future, Si No Que Retorno Un Stream */
           StreamBuilder(
             stream: peliculasProvider.popularesStream,
             builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
