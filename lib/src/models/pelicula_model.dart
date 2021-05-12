@@ -88,6 +88,7 @@ class Peliculas {
 
 /* Esta Clase Es Para Mapear Los Tipos De Datos De Las Peliculas Como Yo Lo Quiero Definir */
 class Pelicula {
+  String uniqueId;
   bool adult;
   String backdropPath;
   List<int> genreIds;
