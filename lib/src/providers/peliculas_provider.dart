@@ -95,4 +95,15 @@ class PeliculasProvider {
     final cast = new Cast.fromJsonList(decodedData['cast']);
     return cast.actores;
   }
+
+  /* Solicitar Las Peliculas En TheMovieDB API Que Haga Match Con La Busqueda
+  Del Usuario En El AppBar */
+  Future<List<Pelicula>> buscarPelicula(String query) async {
+    /* Aqui Estoy Generando La Url Con Parametros */
+    final url = Uri.https(_url, '3/search/movie',
+        {'api_key': _apiKey, 'language': _language, 'query': query});
+
+    /* Optimización De Código */
+    return await _procesarRespuesta(url);
+  }
 }
