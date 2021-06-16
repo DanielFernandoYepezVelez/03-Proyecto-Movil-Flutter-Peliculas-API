@@ -26,12 +26,14 @@ class MovieHorizontal extends StatelessWidget {
     final _screenSize = MediaQuery.of(context).size;
 
     /* Obtener La Posición En Pixeles Del Page Controller */
-    _pageController.addListener(() {
-      if (_pageController.position.pixels >=
-          _pageController.position.maxScrollExtent - 200) {
-        siguientePagina();
-      }
-    });
+    _pageController.addListener(
+      () {
+        if (_pageController.position.pixels >=
+            _pageController.position.maxScrollExtent - 200) {
+          siguientePagina();
+        }
+      },
+    );
 
     return Container(
       height: _screenSize.height * 0.2,
@@ -86,6 +88,7 @@ class MovieHorizontal extends StatelessWidget {
     );
   }
 
+  // ignore: unused_element
   List<Widget> _tarjetas(BuildContext context) {
     return peliculas.map((pelicula) {
       return Container(

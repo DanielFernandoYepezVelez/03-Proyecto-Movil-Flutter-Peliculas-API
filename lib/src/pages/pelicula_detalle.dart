@@ -14,14 +14,15 @@ class PeliculaDetallePage extends StatelessWidget {
         slivers: [
           _crearAppBar(pelicula),
           SliverList(
-              delegate: SliverChildListDelegate([
-            SizedBox(
-              height: 10.0,
+            delegate: SliverChildListDelegate(
+              [
+                SizedBox(height: 10.0),
+                _posterTitulo(context, pelicula),
+                _descripcion(pelicula),
+                _crearCasting(pelicula),
+              ],
             ),
-            _posterTitulo(context, pelicula),
-            _descripcion(pelicula),
-            _crearCasting(pelicula),
-          ]))
+          ),
         ],
       ),
     );
@@ -67,30 +68,31 @@ class PeliculaDetallePage extends StatelessWidget {
           ),
           SizedBox(width: 20.0),
           Flexible(
-              child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                pelicula.title,
-                style: Theme.of(context).textTheme.headline6,
-                overflow: TextOverflow.ellipsis,
-              ),
-              Text(
-                pelicula.originalLanguage,
-                style: Theme.of(context).textTheme.subtitle1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              Row(
-                children: [
-                  Icon(Icons.star_border),
-                  Text(
-                    pelicula.voteAverage.toString(),
-                    style: Theme.of(context).textTheme.subtitle1,
-                  ),
-                ],
-              )
-            ],
-          )),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  pelicula.title,
+                  style: Theme.of(context).textTheme.headline6,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Text(
+                  pelicula.originalLanguage,
+                  style: Theme.of(context).textTheme.subtitle1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                Row(
+                  children: [
+                    Icon(Icons.star_border),
+                    Text(
+                      pelicula.voteAverage.toString(),
+                      style: Theme.of(context).textTheme.subtitle1,
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -149,7 +151,7 @@ class PeliculaDetallePage extends StatelessWidget {
           Text(
             actor.name,
             overflow: TextOverflow.ellipsis,
-          )
+          ),
         ],
       ),
     );
