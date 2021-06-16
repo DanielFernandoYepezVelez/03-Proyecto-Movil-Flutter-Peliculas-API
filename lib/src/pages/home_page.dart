@@ -14,29 +14,33 @@ class HomePage extends StatelessWidget {
     peliculasProvider.getPopulares();
 
     return Scaffold(
-        appBar: AppBar(
-          // centerTitle: false, No Es Necesaria, Pero Existe
-          title: Text('Peliculas En Cines'),
-          backgroundColor: Colors.indigoAccent,
-          actions: [
-            IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                showSearch(
-                  context: context,
-                  delegate: new DataSearch(),
-                  // query: 'Hola'
-                );
-              },
-            )
+      appBar: AppBar(
+        // centerTitle: false, No Es Necesaria, Pero Existe
+        title: Text('Peliculas En Cines'),
+        backgroundColor: Colors.indigoAccent,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: new DataSearch(),
+                // query: 'Hola'
+              );
+            },
+          )
+        ],
+      ),
+      body: Container(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _swiperTarjetas(),
+            _footer(context),
           ],
         ),
-        body: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [_swiperTarjetas(), _footer(context)],
-          ),
-        ));
+      ),
+    );
   }
 
   Widget _swiperTarjetas() {
@@ -48,7 +52,11 @@ class HomePage extends StatelessWidget {
           return CardSwiper(peliculas: snapshot.data);
         } else {
           return Container(
-              height: 450.0, child: Center(child: CircularProgressIndicator()));
+            height: 450.0,
+            child: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
         }
       },
     );
@@ -62,21 +70,24 @@ class HomePage extends StatelessWidget {
         children: [
           /* Para Configurar Textos De Una Manera Global */
           Container(
-              padding: EdgeInsets.only(left: 20.0),
-              child: Text('Populares',
-                  style: Theme.of(context).textTheme.subtitle1)),
+            padding: EdgeInsets.only(left: 20.0),
+            child:
+                Text('Populares', style: Theme.of(context).textTheme.subtitle1),
+          ),
           SizedBox(height: 5.0),
-
           /* Ya No Retorno Un Future, Si No Que Retorno Un Stream */
           StreamBuilder(
             stream: peliculasProvider.popularesStream,
             builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
               if (snapshot.hasData) {
                 return MovieHorizontal(
-                    peliculas: snapshot.data,
-                    siguientePagina: peliculasProvider.getPopulares);
+                  peliculas: snapshot.data,
+                  siguientePagina: peliculasProvider.getPopulares,
+                );
               } else {
-                return Center(child: CircularProgressIndicator());
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
               }
             },
           ),
