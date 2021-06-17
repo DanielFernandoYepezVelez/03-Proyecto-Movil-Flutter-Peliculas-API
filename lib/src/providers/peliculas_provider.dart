@@ -31,7 +31,7 @@ class PeliculasProvider {
 
   /* Para Cerrar El Stream */
   void disposeStreams() {
-    _popularesStreamController?.close();
+    _popularesStreamController.close();
   }
 
   Future<List<Pelicula>> _procesarRespuesta(Uri url) async {

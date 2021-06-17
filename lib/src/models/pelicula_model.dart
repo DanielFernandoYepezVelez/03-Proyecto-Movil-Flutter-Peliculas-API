@@ -73,9 +73,7 @@ class Peliculas {
   Peliculas();
 
   /* Aqui Se Esta Recibiendo La Lista De Lo Que Me Retorna La API De Forma Original*/
-  Peliculas.fromJsonList(List<dynamic> jsonList) {
-    if (jsonList == null) return;
-
+  Peliculas.fromJsonList(List<dynamic> /*!*/ jsonList) {
     /* Aqui Yo Me Paso Por Esa Lista Dinamica E Itero En Cada Item De Su LLave - Valor */
     for (var item in jsonList) {
       /* Aqui Lo Que Yo Recibo De Forma Original Lo Mapea A Los Tipos De Datos Que
@@ -88,21 +86,21 @@ class Peliculas {
 
 /* Esta Clase Es Para Mapear Los Tipos De Datos De Las Peliculas Como Yo Lo Quiero Definir */
 class Pelicula {
-  String uniqueId;
-  bool adult;
-  String backdropPath;
-  List<int> genreIds;
-  int id;
-  String originalLanguage;
-  String originalTitle;
-  String overview;
-  double popularity;
-  String posterPath;
-  String releaseDate;
-  String title;
-  bool video;
-  double voteAverage;
-  int voteCount;
+  // String? uniqueId;
+  bool? adult;
+  String? backdropPath;
+  List<int>? genreIds;
+  int? id;
+  String? originalLanguage;
+  String? originalTitle;
+  String? overview;
+  double? popularity;
+  String? posterPath;
+  String? releaseDate;
+  String? title;
+  bool? video;
+  double? voteAverage;
+  int? voteCount;
 
   Pelicula({
     this.adult,
@@ -138,6 +136,14 @@ class Pelicula {
     video = json['video'];
     voteAverage = json['vote_average'] / 1;
     voteCount = json['vote_count'];
+  }
+
+  get uniqueId {
+    return '$id-tarjetica';
+  }
+
+  get uniqueIdBanner {
+    return '$id-tarjetica';
   }
 
   getPosterImg() {

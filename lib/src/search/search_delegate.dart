@@ -81,7 +81,7 @@ class DataSearch extends SearchDelegate {
       future: peliculasProvider.buscarPelicula(query),
       builder: (BuildContext context, AsyncSnapshot<List<Pelicula>> snapshot) {
         if (snapshot.hasData) {
-          final responsePelis = snapshot.data;
+          final responsePelis = snapshot.data!;
 
           return ListView(
             /* Los Mapas Retornas Iterables, Por Ender, Aplico El ToList() */
@@ -93,11 +93,11 @@ class DataSearch extends SearchDelegate {
                         width: 50.0,
                         fit: BoxFit.contain,
                       ),
-                      title: Text(pelicula.title),
-                      subtitle: Text(pelicula.originalTitle),
+                      title: Text(pelicula.title!),
+                      subtitle: Text(pelicula.originalTitle!),
                       onTap: () {
                         close(context, null);
-                        pelicula.uniqueId = '';
+                        // pelicula.uniqueId = '';
                         Navigator.pushNamed(context, 'detalle',
                             arguments: pelicula);
                       },

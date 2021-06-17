@@ -1,3 +1,4 @@
+import 'package:catalogo_peliculas/src/models/pelicula_model.dart';
 import 'package:catalogo_peliculas/src/providers/peliculas_provider.dart';
 import 'package:catalogo_peliculas/src/search/search_delegate.dart';
 import 'package:catalogo_peliculas/src/widgets/movie_horizontal.dart';
@@ -49,10 +50,10 @@ class HomePage extends StatelessWidget {
           peliculasProvider.getEnCines(), // Como retorna Un Future Lo Acepta
       builder: (BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
         if (snapshot.hasData) {
-          return CardSwiper(peliculas: snapshot.data);
+          return CardSwiper(peliculas: snapshot.data as List<Pelicula>);
         } else {
           return Container(
-            height: 450.0,
+            // height: 400.0,
             child: Center(
               child: CircularProgressIndicator(),
             ),
@@ -74,14 +75,14 @@ class HomePage extends StatelessWidget {
             child:
                 Text('Populares', style: Theme.of(context).textTheme.subtitle1),
           ),
-          SizedBox(height: 5.0),
+          // SizedBox(height: 5.0),
           /* Ya No Retorno Un Future, Si No Que Retorno Un Stream */
           StreamBuilder(
             stream: peliculasProvider.popularesStream,
             builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
               if (snapshot.hasData) {
                 return MovieHorizontal(
-                  peliculas: snapshot.data,
+                  peliculas: snapshot.data as List<Pelicula>?,
                   siguientePagina: peliculasProvider.getPopulares,
                 );
               } else {

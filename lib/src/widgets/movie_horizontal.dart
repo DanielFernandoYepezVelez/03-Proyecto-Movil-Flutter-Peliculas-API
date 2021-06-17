@@ -12,14 +12,14 @@ De Las Peliculas. Un Widget Customizado O Personalizado*/
 /* Las Peliculas Vienen Del Padre Y No Es La Responsabilidad
 De Esta Clase Mantener Su Estado, Por Ende Es Un StatelessWidget */
 class MovieHorizontal extends StatelessWidget {
-  final List<Pelicula> peliculas;
+  final List<Pelicula>? peliculas;
   final Function siguientePagina;
 
   /* Para Escuchar Los Cambios Que Pasen En El Movie Horizontal(Scroll) */
   final _pageController =
-      new PageController(initialPage: 1, viewportFraction: 0.3);
+      new PageController(/* initialPage: 1, */ viewportFraction: 0.3);
 
-  MovieHorizontal({@required this.peliculas, @required this.siguientePagina});
+  MovieHorizontal({required this.peliculas, required this.siguientePagina});
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +37,13 @@ class MovieHorizontal extends StatelessWidget {
 
     return Container(
       height: _screenSize.height * 0.2,
-      child: PageView.builder(
-        pageSnapping: false,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        // pageSnapping: false,
         controller: _pageController,
-        itemCount: peliculas.length,
+        itemCount: peliculas!.length,
         itemBuilder: (context, index) {
-          return _tarjeta(context, peliculas[index]);
+          return _tarjeta(context, peliculas![index]);
         },
         // children: _targetas(context),
       ),
@@ -50,15 +51,15 @@ class MovieHorizontal extends StatelessWidget {
   }
 
   Widget _tarjeta(BuildContext context, Pelicula pelicula) {
-    pelicula.uniqueId = '${pelicula.id}-tarjetica';
+    // pelicula.uniqueId = '${pelicula.id}-tarjetica';
 
     final tarjetaIndividual = Container(
-      margin: EdgeInsets.only(right: 15.0),
+      margin: EdgeInsets.only(left: 10),
       child: Column(
         children: [
           Expanded(
             child: Hero(
-              tag: pelicula.uniqueId,
+              tag: pelicula.uniqueId.toString(),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20.0),
                 child: FadeInImage(
@@ -71,10 +72,14 @@ class MovieHorizontal extends StatelessWidget {
             ),
           ),
           SizedBox(height: 3.0),
-          Text(
-            pelicula.title,
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.caption,
+          Container(
+            width: 120,
+            child: Text(
+              pelicula.title!,
+              textAlign: TextAlign.center,
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.caption,
+            ),
           )
         ],
       ),
@@ -90,7 +95,7 @@ class MovieHorizontal extends StatelessWidget {
 
   // ignore: unused_element
   List<Widget> _tarjetas(BuildContext context) {
-    return peliculas.map((pelicula) {
+    return peliculas!.map((pelicula) {
       return Container(
         margin: EdgeInsets.only(right: 15.0),
         child: Column(
@@ -108,7 +113,7 @@ class MovieHorizontal extends StatelessWidget {
             ),
             SizedBox(height: 3.0),
             Text(
-              pelicula.title,
+              pelicula.title!,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.caption,
             )
